@@ -19,9 +19,11 @@ import {
   LayoutDashboard,
   ChevronLeft,
   ChevronRight,
+  PlusCircle,
 } from "lucide-react"
 
 const mainNavItems = [
+  { href: "/missions/new", label: "New Mission", icon: PlusCircle },
   { href: "/planning", label: "Planning Status", icon: Calendar },
   { href: "/slips", label: "Transport Slips", icon: FileText },
   { href: "/urgent", label: "Urgent Ops", icon: AlertTriangle },

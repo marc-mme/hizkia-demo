@@ -12,8 +12,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { MissionModal } from "@/components/missions"
 import { format, parseISO } from "date-fns"
 import { cn } from "@/lib/utils"
 import {
@@ -28,6 +30,8 @@ import {
   Clock,
   Check,
   Eye,
+  Plus,
+  Copy,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -41,6 +45,17 @@ export default function PlanningPage() {
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("asc")
   const [expandedId, setExpandedId] = React.useState<string | null>(null)
   const [ops, setOps] = React.useState(operations)
+
+  // Mission modal state
+  const [modalOpen, setModalOpen] = React.useState(false)
+  const [modalClientId, setModalClientId] = React.useState<string>()
+  const [modalClientName, setModalClientName] = React.useState<string>()
+
+  const openNewMissionModal = (clientId?: string, clientName?: string) => {
+    setModalClientId(clientId)
+    setModalClientName(clientName)
+    setModalOpen(true)
+  }
 
   const statusCounts = React.useMemo(() => {
     return {
@@ -127,6 +142,13 @@ export default function PlanningPage() {
             Manage and track all scheduled operations
           </p>
         </div>
+        <Button
+          onClick={() => openNewMissionModal()}
+          className="bg-gold text-background hover:bg-gold/90"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          New Mission
+        </Button>
       </div>
 
       {/* Stats Cards */}
@@ -400,6 +422,24 @@ export default function PlanningPage() {
                               <Check className="h-4 w-4 mr-2" />
                               Mark Completed
                             </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                // Find client ID from client name (simplified mapping)
+                                const clientIdMap: Record<string, string> = {
+                                  "Musée du Louvre": "louvre",
+                                  "Centre Pompidou": "pompidou",
+                                  "Christie's Paris": "christies",
+                                  "Galerie Perrotin": "perrotin",
+                                }
+                                const clientId = clientIdMap[op.client]
+                                openNewMissionModal(clientId, op.client)
+                              }}
+                            >
+                              <Copy className="h-4 w-4 mr-2 text-gold" />
+                              New Mission for Client
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </td>
@@ -485,6 +525,14 @@ export default function PlanningPage() {
           </div>
         )}
       </Card>
+
+      {/* Mission Modal */}
+      <MissionModal
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        initialClientId={modalClientId}
+        initialClientName={modalClientName}
+      />
     </div>
   )
 }

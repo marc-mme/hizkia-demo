@@ -3,7 +3,6 @@
 import * as React from "react"
 import { slips, type TransportSlip, type SlipStatus } from "@/data/slips"
 import { crew } from "@/data/crew"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { SlipPrintable } from "@/components/slips"
 import { format, parseISO, differenceInMinutes } from "date-fns"
 import { cn } from "@/lib/utils"
 import {
@@ -38,7 +38,7 @@ import {
   CheckCircle,
   AlertTriangle,
   User,
-  Calendar,
+  Eye,
 } from "lucide-react"
 
 const columnConfig: Record<
@@ -209,6 +209,7 @@ export default function SlipsPage() {
   const [slipList, setSlipList] = React.useState(slips)
   const [activeId, setActiveId] = React.useState<string | null>(null)
   const [selectedSlip, setSelectedSlip] = React.useState<TransportSlip | null>(null)
+  const [previewSlip, setPreviewSlip] = React.useState<TransportSlip | null>(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -394,6 +395,15 @@ export default function SlipsPage() {
               </div>
 
               <div className="flex gap-2 pt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setPreviewSlip(selectedSlip)
+                  }}
+                >
+                  <Eye className="h-4 w-4 mr-2" />
+                  Preview
+                </Button>
                 {selectedSlip.status === "created" && (
                   <Button
                     className="flex-1"
@@ -443,6 +453,15 @@ export default function SlipsPage() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Printable Slip Preview Modal */}
+      {previewSlip && (
+        <SlipPrintable
+          slip={previewSlip}
+          open={!!previewSlip}
+          onOpenChange={(open) => !open && setPreviewSlip(null)}
+        />
+      )}
     </div>
   )
 }
