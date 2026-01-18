@@ -57,7 +57,13 @@
     "operationsDashboard": "Operations Dashboard"
   },
   "header": {
-    "searchPlaceholder": "Search operations..."
+    "searchPlaceholder": "Search operations...",
+    "notifications": "Notifications",
+    "unread": "unread",
+    "viewAllNotifications": "View all notifications",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
   },
   "auth": {
     "title": "HIZKIA",

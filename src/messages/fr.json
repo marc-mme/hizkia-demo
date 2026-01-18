@@ -57,7 +57,13 @@
     "operationsDashboard": "Tableau de Bord Opérations"
   },
   "header": {
-    "searchPlaceholder": "Rechercher des opérations..."
+    "searchPlaceholder": "Rechercher des opérations...",
+    "notifications": "Notifications",
+    "unread": "non lues",
+    "viewAllNotifications": "Voir toutes les notifications",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
   },
   "auth": {
     "title": "HIZKIA",
