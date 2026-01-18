@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { ThemeToggle } from "@/components/shared/theme-toggle"
+import { LanguageSwitcher } from "@/components/shared/language-switcher"
 import { Bell, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +13,8 @@ interface HeaderProps {
 }
 
 export function Header({ title }: HeaderProps) {
+  const t = useTranslations("header")
+
   return (
     <header className="h-16 flex items-center justify-between px-6 border-b border-glass-border glass">
       <div className="flex items-center gap-4">
@@ -22,7 +26,7 @@ export function Header({ title }: HeaderProps) {
         <div className="relative hidden md:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search operations..."
+            placeholder={t("searchPlaceholder")}
             className="w-64 pl-9 glass-subtle border-glass-border"
           />
         </div>
@@ -34,6 +38,9 @@ export function Header({ title }: HeaderProps) {
             3
           </span>
         </Button>
+
+        {/* Language Switcher */}
+        <LanguageSwitcher />
 
         {/* Theme Toggle */}
         <ThemeToggle />

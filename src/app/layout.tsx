@@ -2,7 +2,9 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/providers/theme-provider"
+import { IntlProvider } from "@/components/providers/intl-provider"
 import { AppShell } from "@/components/layout/app-shell"
+import { getLocale, getMessages } from "next-intl/server"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,13 +21,16 @@ export const metadata: Metadata = {
   description: "Art Logistics Operations Dashboard",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -35,7 +40,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppShell>{children}</AppShell>
+          <IntlProvider locale={locale} messages={messages}>
+            <AppShell>{children}</AppShell>
+          </IntlProvider>
         </ThemeProvider>
       </body>
     </html>

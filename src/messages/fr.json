@@ -1,0 +1,354 @@
+{
+  "common": {
+    "actions": {
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "reset": "Réinitialiser",
+      "next": "Suivant",
+      "back": "Retour",
+      "submit": "Soumettre",
+      "confirm": "Confirmer",
+      "delete": "Supprimer",
+      "edit": "Modifier",
+      "close": "Fermer",
+      "search": "Rechercher",
+      "clearFilters": "Effacer les filtres",
+      "assign": "Assigner",
+      "refresh": "Actualiser",
+      "create": "Créer",
+      "update": "Mettre à jour"
+    },
+    "status": {
+      "visible": "Visible",
+      "ready": "Prêt",
+      "inProgress": "En cours",
+      "completed": "Terminé"
+    },
+    "labels": {
+      "client": "Client",
+      "type": "Type",
+      "date": "Date",
+      "time": "Heure",
+      "notes": "Notes",
+      "crew": "Équipe",
+      "actions": "Actions",
+      "status": "Statut",
+      "vehicle": "Véhicule",
+      "pickup": "Enlèvement",
+      "delivery": "Livraison"
+    }
+  },
+  "navigation": {
+    "main": "Principal",
+    "extra": "Supplémentaire",
+    "newMission": "Nouvelle Mission",
+    "planningStatus": "État du Planning",
+    "planningView": "Vue Planning",
+    "transportSlips": "Bons de Transport",
+    "urgentOps": "Ops Urgentes",
+    "resources": "Ressources",
+    "fieldView": "Vue Terrain",
+    "dailyBriefing": "Briefing Quotidien",
+    "activityFeed": "Fil d'Activité",
+    "capacity": "Capacité",
+    "clientPortal": "Portail Client",
+    "kpiDashboard": "Tableau de Bord KPI",
+    "executive": "Direction",
+    "operationsDashboard": "Tableau de Bord Opérations"
+  },
+  "header": {
+    "searchPlaceholder": "Rechercher des opérations..."
+  },
+  "auth": {
+    "title": "HIZKIA",
+    "passwordProtected": "Cette démo est protégée par mot de passe.",
+    "enterAccessCode": "Veuillez entrer le code d'accès pour continuer.",
+    "placeholder": "Entrez le code d'accès",
+    "invalidCode": "Code d'accès invalide. Veuillez réessayer.",
+    "accessDemo": "Accéder à la Démo",
+    "contactAdmin": "Contactez l'administrateur si vous avez besoin des identifiants d'accès."
+  },
+  "mobile": {
+    "desktopOnly": "Bureau uniquement",
+    "message": "Le tableau de bord HIZKIA Operations est conçu pour les écrans de bureau. Veuillez accéder à cette application depuis un appareil avec un écran plus grand (1024px ou plus).",
+    "viewportTooSmall": "La fenêtre actuelle est trop petite pour une expérience optimale"
+  },
+  "demo": {
+    "banner": "Mode Démo — Ceci est une interface de démonstration. Toutes les données sont simulées et aucun backend n'est connecté.",
+    "welcome": {
+      "title": "Bienvenue sur Hizkia France Ops Demo V1",
+      "subtitle": "Tableau de Bord Opérations Logistiques d'Art",
+      "proposalBy": "Une proposition faite par",
+      "demonstrationInterface": "Ceci est une {strong} présentant le système de gestion des opérations HIZKIA pour la logistique d'art.",
+      "demonstrationInterfaceStrong": "interface de démonstration",
+      "important": "Important :",
+      "importantMessage": "Certains champs peuvent ne pas refléter parfaitement vos opérations actuelles — c'est intentionnel. L'objectif est d'illustrer les possibilités et la direction. Cette proposition inclut des ateliers dédiés pour aligner le design, les workflows et les fonctionnalités avec vos besoins réels.",
+      "technicalNote": "Note technique :",
+      "technicalItems": {
+        "mockedData": "Toutes les données affichées sont simulées à des fins de démonstration",
+        "noBackend": "Aucun service backend n'est connecté",
+        "noPersistence": "Les actions ne seront pas conservées après actualisation"
+      },
+      "exploreMessage": "N'hésitez pas à explorer toutes les fonctionnalités et workflows. Nous espérons que vous apprécierez la démo !",
+      "questionsLabel": "Questions ou commentaires ?",
+      "dismiss": "Compris, explorons !"
+    }
+  },
+  "planning": {
+    "title": "État du Planning",
+    "description": "Gérer et suivre toutes les opérations planifiées",
+    "newMission": "Nouvelle Mission",
+    "searchPlaceholder": "Rechercher par client, ID ou type...",
+    "table": {
+      "dateTime": "Date/Heure",
+      "client": "Client",
+      "type": "Type",
+      "status": "Statut",
+      "crew": "Équipe",
+      "actions": "Actions"
+    },
+    "statusUpdate": "Mettre à jour le statut",
+    "markVisible": "Marquer Visible",
+    "markReady": "Marquer Prêt",
+    "markInProgress": "Marquer En cours",
+    "markCompleted": "Marquer Terminé",
+    "newMissionForClient": "Nouvelle Mission pour ce Client",
+    "expanded": {
+      "pickup": "Enlèvement",
+      "delivery": "Livraison",
+      "notes": "Notes",
+      "requirements": "Exigences",
+      "assignedCrew": "Équipe Assignée"
+    },
+    "noOperations": "Aucune opération trouvée correspondant à vos filtres.",
+    "stats": {
+      "visible": "Visible",
+      "ready": "Prêt",
+      "inProgress": "En cours",
+      "completed": "Terminé"
+    }
+  },
+  "planningView": {
+    "title": "Vue Planning",
+    "description": "Visualisation chronologique des opérations planifiées",
+    "toolbar": {
+      "viewMode": "Mode d'affichage",
+      "dayView": "Vue Jour",
+      "weekView": "Vue Semaine",
+      "monthView": "Vue Mois",
+      "today": "Aujourd'hui",
+      "filters": "Filtres",
+      "allStatuses": "Tous les statuts",
+      "allClients": "Tous les clients",
+      "allCrew": "Toute l'équipe",
+      "clearAllFilters": "Effacer tous les filtres",
+      "resources": "Ressources",
+      "export": "Exporter",
+      "exportPdf": "Exporter en PDF",
+      "exportExcel": "Exporter en Excel"
+    },
+    "noOperations": "Aucune opération sur cette période",
+    "crewAvailability": "Disponibilité de l'équipe",
+    "availableTotal": "Disponible / Total",
+    "clickForDetails": "Cliquez pour plus de détails",
+    "crewAssigned": "{count} membres assignés",
+    "schedule": "Planning",
+    "locations": "Lieux",
+    "assignedCrew": "Équipe Assignée",
+    "noCrewAssigned": "Aucune équipe assignée",
+    "specialRequirements": "Exigences Spéciales"
+  },
+  "slips": {
+    "title": "Pipeline Bons de Transport",
+    "description": "Gérer le workflow des bons de transport",
+    "columns": {
+      "created": "Créé",
+      "validated": "Validé",
+      "printed": "Imprimé"
+    },
+    "labels": {
+      "dueTime": "Échéance",
+      "assignedTo": "Assigné à",
+      "createdAt": "Créé le",
+      "validatedAt": "Validé le",
+      "printedAt": "Imprimé le"
+    },
+    "actions": {
+      "validate": "Valider",
+      "markPrinted": "Marquer comme imprimé",
+      "preview": "Aperçu"
+    },
+    "urgency": {
+      "urgent": "Urgent",
+      "soon": "Bientôt dû",
+      "normal": "Normal"
+    }
+  },
+  "urgent": {
+    "title": "File d'Attente Ops Urgentes",
+    "description": "Gérer les demandes clients de dernière minute",
+    "pendingRequests": "{count} demandes en attente",
+    "pendingRequest": "1 demande en attente",
+    "noPendingRequests": "Aucune demande urgente en attente.",
+    "stages": {
+      "received": "Reçue",
+      "assessed": "Évaluée",
+      "approved": "Approuvée",
+      "scheduled": "Planifiée"
+    },
+    "actions": {
+      "assess": "Évaluer",
+      "approve": "Approuver",
+      "schedule": "Planifier"
+    },
+    "labels": {
+      "received": "Reçue",
+      "due": "Échéance",
+      "requestedDeadline": "Délai demandé",
+      "notes": "Notes",
+      "history": "Historique",
+      "addNote": "Ajouter une note (optionnel)",
+      "owner": "Responsable"
+    },
+    "buttons": {
+      "markAsAssessed": "Marquer comme évaluée",
+      "approveRequest": "Approuver la demande",
+      "addToSchedule": "Ajouter au planning"
+    },
+    "notePlaceholder": "Ajouter une note sur cette action...",
+    "allCaughtUp": "Tout est à jour !",
+    "recentlyScheduled": "Récemment planifiées"
+  },
+  "resources": {
+    "title": "Correspondance des Ressources",
+    "description": "Assigner l'équipe selon les compétences et la disponibilité",
+    "operationsRequiring": "Opérations Nécessitant une Assignation",
+    "availableCrew": "Équipe Disponible",
+    "forClient": "pour {client}",
+    "noCrewAssigned": "Aucune équipe assignée",
+    "needsMore": "Nécessite {count} de plus",
+    "allStaffed": "Toutes les opérations sont dotées en personnel !",
+    "selectOperation": "Sélectionnez une opération pour voir les correspondances",
+    "matchReasons": {
+      "notAvailable": "Non disponible aujourd'hui",
+      "overloaded": "Surchargé (3+ opérations aujourd'hui)",
+      "fullyQualified": "Pleinement qualifié",
+      "available": "Disponible",
+      "missing": "Manquant : {certs}"
+    },
+    "opsToday": "{count} ops aujourd'hui",
+    "confirmAssignment": "Confirmer l'Assignation",
+    "assignPrompt": "Assigner {crew} à {client} ?",
+    "operation": "Opération",
+    "dateTime": "Date/Heure"
+  },
+  "mission": {
+    "title": "Nouvelle Mission",
+    "description": "Créer une nouvelle opération de transport",
+    "steps": {
+      "clientType": "Client & Type",
+      "artworkDetails": "Détails Œuvre",
+      "pickup": "Enlèvement",
+      "delivery": "Livraison",
+      "requirements": "Exigences",
+      "review": "Révision"
+    },
+    "shortSteps": {
+      "client": "Client",
+      "artwork": "Œuvre",
+      "pickup": "Enlèv.",
+      "delivery": "Livr.",
+      "reqs": "Exig.",
+      "review": "Révision"
+    },
+    "buttons": {
+      "saveDraft": "Enregistrer brouillon",
+      "createMission": "Créer la Mission",
+      "createAnother": "Créer une autre Mission",
+      "goToPlanning": "Aller au Planning"
+    },
+    "success": {
+      "title": "Mission Créée !",
+      "message": "Votre mission {reference} a été créée avec succès."
+    },
+    "resetDialog": {
+      "title": "Réinitialiser le formulaire ?",
+      "message": "Cela effacera toutes les données saisies et recommencera à zéro. Cette action ne peut pas être annulée.",
+      "confirm": "Réinitialiser"
+    },
+    "clientInfo": {
+      "title": "Client",
+      "searchPlaceholder": "Rechercher des clients...",
+      "noClientsFound": "Aucun client trouvé",
+      "change": "Changer",
+      "missionType": "Type de Mission",
+      "reference": "Référence",
+      "referenceNumber": "Numéro de référence",
+      "autoGenerated": "Auto-généré",
+      "internalNotes": "Notes Internes",
+      "notesPlaceholder": "Ajouter des notes internes ou instructions spéciales..."
+    },
+    "types": {
+      "pickup": "Enlèvement",
+      "delivery": "Livraison",
+      "roundTrip": "Aller-Retour",
+      "installation": "Installation"
+    },
+    "operationTypes": {
+      "delivery": "Livraison",
+      "pickup": "Enlèvement",
+      "installation": "Installation",
+      "auction": "Vente aux enchères"
+    }
+  },
+  "briefing": {
+    "title": "Briefing Quotidien",
+    "description": "Aperçu des opérations du jour",
+    "stats": {
+      "scheduled": "Planifiées",
+      "completed": "Terminées",
+      "crewActive": "Équipe Active",
+      "vehicles": "Véhicules"
+    },
+    "timeline": "Timeline du jour",
+    "alerts": "Alertes & Avis",
+    "crewStatus": "Statut de l'Équipe"
+  },
+  "activity": {
+    "title": "Fil d'Activité",
+    "description": "Activité système en temps réel",
+    "types": {
+      "all": "Tout",
+      "statusChange": "Changements de statut",
+      "assignment": "Assignations",
+      "urgent": "Urgent",
+      "alert": "Alertes",
+      "slip": "Bons"
+    },
+    "noActivity": "Aucune activité à afficher"
+  },
+  "capacity": {
+    "title": "Aperçu de la Capacité",
+    "description": "Utilisation et disponibilité des ressources",
+    "weekView": "Semaine",
+    "dayView": "Jour",
+    "utilization": "Utilisation",
+    "available": "Disponible"
+  },
+  "field": {
+    "title": "Vue Terrain",
+    "description": "Vue opérations optimisée mobile"
+  },
+  "portal": {
+    "title": "Portail Client",
+    "description": "Mises à jour de statut côté client"
+  },
+  "kpi": {
+    "title": "Tableau de Bord KPI",
+    "description": "Indicateurs clés de performance"
+  },
+  "executive": {
+    "title": "Tableau de Bord Direction",
+    "description": "Vue d'ensemble business haut niveau"
+  }
+}

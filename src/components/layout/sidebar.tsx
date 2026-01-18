@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import {
@@ -20,24 +21,33 @@ import {
   ChevronLeft,
   ChevronRight,
   PlusCircle,
+  GanttChart,
+  LucideIcon,
 } from "lucide-react"
 
-const mainNavItems = [
-  { href: "/missions/new", label: "New Mission", icon: PlusCircle },
-  { href: "/planning", label: "Planning Status", icon: Calendar },
-  { href: "/slips", label: "Transport Slips", icon: FileText },
-  { href: "/urgent", label: "Urgent Ops", icon: AlertTriangle },
-  { href: "/resources", label: "Resources", icon: Users },
+type NavItem = {
+  href: string
+  labelKey: string
+  icon: LucideIcon
+}
+
+const mainNavItems: NavItem[] = [
+  { href: "/missions/new", labelKey: "newMission", icon: PlusCircle },
+  { href: "/planning", labelKey: "planningStatus", icon: Calendar },
+  { href: "/planning-view", labelKey: "planningView", icon: GanttChart },
+  { href: "/slips", labelKey: "transportSlips", icon: FileText },
+  { href: "/urgent", labelKey: "urgentOps", icon: AlertTriangle },
+  { href: "/resources", labelKey: "resources", icon: Users },
 ]
 
-const extraNavItems = [
-  { href: "/field", label: "Field View", icon: Smartphone },
-  { href: "/briefing", label: "Daily Briefing", icon: Coffee },
-  { href: "/activity", label: "Activity Feed", icon: Activity },
-  { href: "/capacity", label: "Capacity", icon: BarChart3 },
-  { href: "/portal", label: "Client Portal", icon: Globe },
-  { href: "/kpi", label: "KPI Dashboard", icon: LineChart },
-  { href: "/executive", label: "Executive", icon: LayoutDashboard },
+const extraNavItems: NavItem[] = [
+  { href: "/field", labelKey: "fieldView", icon: Smartphone },
+  { href: "/briefing", labelKey: "dailyBriefing", icon: Coffee },
+  { href: "/activity", labelKey: "activityFeed", icon: Activity },
+  { href: "/capacity", labelKey: "capacity", icon: BarChart3 },
+  { href: "/portal", labelKey: "clientPortal", icon: Globe },
+  { href: "/kpi", labelKey: "kpiDashboard", icon: LineChart },
+  { href: "/executive", labelKey: "executive", icon: LayoutDashboard },
 ]
 
 interface SidebarProps {
@@ -47,6 +57,7 @@ interface SidebarProps {
 
 export function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
   const pathname = usePathname()
+  const t = useTranslations("navigation")
 
   return (
     <motion.aside
@@ -93,7 +104,7 @@ export function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
         <div className="px-3 mb-6">
           {!collapsed && (
             <h3 className="text-xs font-semibold text-gold uppercase tracking-wider mb-3 px-3">
-              Main
+              {t("main")}
             </h3>
           )}
           <ul className="space-y-1">
@@ -113,7 +124,7 @@ export function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
                   >
                     <Icon className={cn("h-5 w-5 shrink-0", isActive && "text-gold")} />
                     {!collapsed && (
-                      <span className="text-sm font-medium">{item.label}</span>
+                      <span className="text-sm font-medium">{t(item.labelKey)}</span>
                     )}
                   </Link>
                 </li>
@@ -126,7 +137,7 @@ export function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
         <div className="px-3">
           {!collapsed && (
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-3">
-              Extra
+              {t("extra")}
             </h3>
           )}
           <ul className="space-y-1">
@@ -146,7 +157,7 @@ export function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
                   >
                     <Icon className="h-5 w-5 shrink-0" />
                     {!collapsed && (
-                      <span className="text-sm font-medium">{item.label}</span>
+                      <span className="text-sm font-medium">{t(item.labelKey)}</span>
                     )}
                   </Link>
                 </li>
@@ -160,7 +171,7 @@ export function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
       <div className="p-4 border-t border-glass-border">
         {!collapsed && (
           <p className="text-xs text-muted-foreground text-center">
-            Operations Dashboard
+            {t("operationsDashboard")}
           </p>
         )}
       </div>

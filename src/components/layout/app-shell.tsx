@@ -1,16 +1,25 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { Sidebar } from "./sidebar"
 import { Header } from "./header"
 import { MissionPanelProvider, useMissionPanel } from "@/components/missions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Plus, Info, Monitor, Lock, Eye, EyeOff } from "lucide-react"
+import { Plus, Info, Monitor, Lock, Eye, EyeOff, Mail, Phone, Sparkles } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
 import { usePathname } from "next/navigation"
 import { useIsMobile } from "@/hooks"
 
 const STORAGE_KEY = "demo-authorized-access"
+const WELCOME_STORAGE_KEY = "demo-welcome-seen"
 const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD || "demo"
 
 interface AppShellProps {
@@ -54,6 +63,7 @@ function useAuthGate() {
 }
 
 function AuthGate({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("auth")
   const { isAuthorized, authorize } = useAuthGate()
   const [password, setPassword] = React.useState("")
   const [error, setError] = React.useState(false)
@@ -71,7 +81,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   // Still checking localStorage
   if (isAuthorized === null) {
     return (
-      <div className="fixed inset-0 z-[200] bg-background flex items-center justify-center">
+      <div className="fixed inset-0 z-200 bg-background flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" />
       </div>
     )
@@ -80,17 +90,17 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   // Not authorized - show password form
   if (!isAuthorized) {
     return (
-      <div className="fixed inset-0 z-[200] bg-background flex flex-col items-center justify-center p-8">
+      <div className="fixed inset-0 z-200 bg-background flex flex-col items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="w-20 h-20 rounded-full bg-gold/20 flex items-center justify-center mx-auto mb-6">
               <Lock className="h-10 w-10 text-gold" />
             </div>
-            <h1 className="text-3xl font-bold mb-2">HIZKIA<span className="text-gold">.</span></h1>
+            <h1 className="text-3xl font-bold mb-2">{t("title")}<span className="text-gold">.</span></h1>
             <p className="text-muted-foreground">
-              This demo is password protected.
+              {t("passwordProtected")}
               <br />
-              Please enter the access code to continue.
+              {t("enterAccessCode")}
             </p>
           </div>
 
@@ -98,7 +108,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
             <div className="relative">
               <Input
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter access code"
+                placeholder={t("placeholder")}
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value)
@@ -117,7 +127,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
             </div>
             {error && (
               <p className="text-red-500 text-sm text-center">
-                Invalid access code. Please try again.
+                {t("invalidCode")}
               </p>
             )}
             <Button
@@ -125,12 +135,12 @@ function AuthGate({ children }: { children: React.ReactNode }) {
               className="w-full h-12 bg-gold text-background hover:bg-gold/90"
               disabled={!password}
             >
-              Access Demo
+              {t("accessDemo")}
             </Button>
           </form>
 
           <p className="text-center text-xs text-muted-foreground/60 mt-8">
-            Contact the administrator if you need access credentials.
+            {t("contactAdmin")}
           </p>
         </div>
       </div>
@@ -142,6 +152,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 }
 
 function MobileBlocker() {
+  const t = useTranslations("mobile")
   const isMobile = useIsMobile(1024)
   const [mounted, setMounted] = React.useState(false)
 
@@ -154,32 +165,137 @@ function MobileBlocker() {
   if (!isMobile) return null
 
   return (
-    <div className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center p-8 text-center">
+    <div className="fixed inset-0 z-100 bg-background flex flex-col items-center justify-center p-8 text-center">
       <div className="w-20 h-20 rounded-full bg-gold/20 flex items-center justify-center mb-6">
         <Monitor className="h-10 w-10 text-gold" />
       </div>
-      <h1 className="text-2xl font-bold mb-3">Desktop Only</h1>
+      <h1 className="text-2xl font-bold mb-3">{t("desktopOnly")}</h1>
       <p className="text-muted-foreground max-w-md mb-6">
-        HIZKIA Operations Dashboard is designed for desktop screens.
-        Please access this application from a device with a larger screen (1024px or wider).
+        {t("message")}
       </p>
       <div className="text-xs text-muted-foreground/60">
-        Current viewport is too small for optimal experience
+        {t("viewportTooSmall")}
       </div>
     </div>
   )
 }
 
 function DemoBanner() {
+  const t = useTranslations("demo")
   return (
     <div className="bg-gold/10 border-b border-gold/30 px-4 py-2 text-center text-sm">
       <span className="inline-flex items-center gap-2 text-gold">
         <Info className="h-4 w-4" />
-        <span>
-          <strong>Demo Mode</strong> — This is a demonstration interface. All data is mocked and no backend is connected.
-        </span>
+        <span>{t("banner")}</span>
       </span>
     </div>
+  )
+}
+
+function WelcomeModal() {
+  const t = useTranslations("demo.welcome")
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+    const hasSeenWelcome = localStorage.getItem(WELCOME_STORAGE_KEY)
+    if (!hasSeenWelcome) {
+      setIsOpen(true)
+    }
+  }, [])
+
+  const handleDismiss = () => {
+    localStorage.setItem(WELCOME_STORAGE_KEY, "true")
+    setIsOpen(false)
+  }
+
+  if (!mounted) return null
+
+  return (
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleDismiss()}>
+      <DialogContent className="glass border-gold/30 max-w-lg">
+        <DialogHeader>
+          <div className="flex items-center justify-center mb-4">
+            <div className="w-16 h-16 rounded-full bg-gold/20 flex items-center justify-center">
+              <Sparkles className="h-8 w-8 text-gold" />
+            </div>
+          </div>
+          <DialogTitle className="text-2xl text-center">
+            {t("title")}
+          </DialogTitle>
+          <DialogDescription className="text-center text-muted-foreground">
+            {t("subtitle")}
+            <br />
+            <span className="text-xs">
+              {t("proposalBy")}{" "}
+              <a
+                href="https://marc.agbanavor.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gold hover:underline"
+              >
+                Marc Agbanavor
+              </a>
+            </span>
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4 py-4">
+          <p className="text-sm text-muted-foreground">
+            {t.rich("demonstrationInterface", {
+              strong: (chunks) => <strong className="text-foreground">{chunks}</strong>
+            })}
+          </p>
+
+          <div className="bg-amber-900/40 border-2 border-amber-500 rounded-lg p-4">
+            <p className="text-sm text-amber-100">
+              <strong className="text-amber-300">{t("important")}</strong> {t("importantMessage")}
+            </p>
+          </div>
+
+          <div className="bg-gold/5 border border-gold/20 rounded-lg p-4 space-y-2">
+            <p className="text-sm font-medium text-gold">{t("technicalNote")}</p>
+            <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+              <li>{t("technicalItems.mockedData")}</li>
+              <li>{t("technicalItems.noBackend")}</li>
+              <li>{t("technicalItems.noPersistence")}</li>
+            </ul>
+          </div>
+
+          <p className="text-sm text-muted-foreground">
+            {t("exploreMessage")}
+          </p>
+
+          <div className="border-t border-border pt-4 mt-4">
+            <p className="text-sm font-medium mb-2">{t("questionsLabel")}</p>
+            <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+              <a
+                href="mailto:me@marc.agbanvor.com"
+                className="inline-flex items-center gap-2 hover:text-gold transition-colors"
+              >
+                <Mail className="h-4 w-4" />
+                me@marc.agbanvor.com
+              </a>
+              <a
+                href="tel:+33785923313"
+                className="inline-flex items-center gap-2 hover:text-gold transition-colors"
+              >
+                <Phone className="h-4 w-4" />
+                07 85 92 33 13
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <Button
+          onClick={handleDismiss}
+          className="w-full bg-gold text-background hover:bg-gold/90"
+        >
+          {t("dismiss")}
+        </Button>
+      </DialogContent>
+    </Dialog>
   )
 }
 
@@ -220,6 +336,7 @@ export function AppShell({ children }: AppShellProps) {
             </div>
           </div>
           <FloatingActionButton />
+          <WelcomeModal />
         </div>
       </MissionPanelProvider>
     </AuthGate>

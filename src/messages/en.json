@@ -1,0 +1,354 @@
+{
+  "common": {
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "reset": "Reset",
+      "next": "Next",
+      "back": "Back",
+      "submit": "Submit",
+      "confirm": "Confirm",
+      "delete": "Delete",
+      "edit": "Edit",
+      "close": "Close",
+      "search": "Search",
+      "clearFilters": "Clear Filters",
+      "assign": "Assign",
+      "refresh": "Refresh",
+      "create": "Create",
+      "update": "Update"
+    },
+    "status": {
+      "visible": "Visible",
+      "ready": "Ready",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
+    "labels": {
+      "client": "Client",
+      "type": "Type",
+      "date": "Date",
+      "time": "Time",
+      "notes": "Notes",
+      "crew": "Crew",
+      "actions": "Actions",
+      "status": "Status",
+      "vehicle": "Vehicle",
+      "pickup": "Pickup",
+      "delivery": "Delivery"
+    }
+  },
+  "navigation": {
+    "main": "Main",
+    "extra": "Extra",
+    "newMission": "New Mission",
+    "planningStatus": "Planning Status",
+    "planningView": "Planning View",
+    "transportSlips": "Transport Slips",
+    "urgentOps": "Urgent Ops",
+    "resources": "Resources",
+    "fieldView": "Field View",
+    "dailyBriefing": "Daily Briefing",
+    "activityFeed": "Activity Feed",
+    "capacity": "Capacity",
+    "clientPortal": "Client Portal",
+    "kpiDashboard": "KPI Dashboard",
+    "executive": "Executive",
+    "operationsDashboard": "Operations Dashboard"
+  },
+  "header": {
+    "searchPlaceholder": "Search operations..."
+  },
+  "auth": {
+    "title": "HIZKIA",
+    "passwordProtected": "This demo is password protected.",
+    "enterAccessCode": "Please enter the access code to continue.",
+    "placeholder": "Enter access code",
+    "invalidCode": "Invalid access code. Please try again.",
+    "accessDemo": "Access Demo",
+    "contactAdmin": "Contact the administrator if you need access credentials."
+  },
+  "mobile": {
+    "desktopOnly": "Desktop Only",
+    "message": "HIZKIA Operations Dashboard is designed for desktop screens. Please access this application from a device with a larger screen (1024px or wider).",
+    "viewportTooSmall": "Current viewport is too small for optimal experience"
+  },
+  "demo": {
+    "banner": "Demo Mode — This is a demonstration interface. All data is mocked and no backend is connected.",
+    "welcome": {
+      "title": "Welcome to Hizkia France Ops Demo V1",
+      "subtitle": "Art Logistics Operations Dashboard",
+      "proposalBy": "A proposal made by",
+      "demonstrationInterface": "This is a {strong} showcasing the HIZKIA operations management system for art logistics.",
+      "demonstrationInterfaceStrong": "demonstration interface",
+      "important": "Important:",
+      "importantMessage": "Some fields may not perfectly reflect your current operations — this is intentional. The goal is to illustrate possibilities and direction. This proposal includes dedicated workshops to align design, workflows, and features with your actual needs.",
+      "technicalNote": "Technical note:",
+      "technicalItems": {
+        "mockedData": "All data displayed is mocked for demonstration purposes",
+        "noBackend": "No backend services are connected",
+        "noPersistence": "Actions will not persist after refresh"
+      },
+      "exploreMessage": "Feel free to explore all features and workflows. We hope you enjoy the demo!",
+      "questionsLabel": "Questions or feedback?",
+      "dismiss": "Got it, let's explore!"
+    }
+  },
+  "planning": {
+    "title": "Planning Status",
+    "description": "Manage and track all scheduled operations",
+    "newMission": "New Mission",
+    "searchPlaceholder": "Search by client, ID, or type...",
+    "table": {
+      "dateTime": "Date/Time",
+      "client": "Client",
+      "type": "Type",
+      "status": "Status",
+      "crew": "Crew",
+      "actions": "Actions"
+    },
+    "statusUpdate": "Update Status",
+    "markVisible": "Mark Visible",
+    "markReady": "Mark Ready",
+    "markInProgress": "Mark In Progress",
+    "markCompleted": "Mark Completed",
+    "newMissionForClient": "New Mission for Client",
+    "expanded": {
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "notes": "Notes",
+      "requirements": "Requirements",
+      "assignedCrew": "Assigned Crew"
+    },
+    "noOperations": "No operations found matching your filters.",
+    "stats": {
+      "visible": "Visible",
+      "ready": "Ready",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
+  },
+  "planningView": {
+    "title": "Planning View",
+    "description": "Timeline visualization of scheduled operations",
+    "toolbar": {
+      "viewMode": "View Mode",
+      "dayView": "Day View",
+      "weekView": "Week View",
+      "monthView": "Month View",
+      "today": "Today",
+      "filters": "Filters",
+      "allStatuses": "All Statuses",
+      "allClients": "All Clients",
+      "allCrew": "All Crew",
+      "clearAllFilters": "Clear All Filters",
+      "resources": "Resources",
+      "export": "Export",
+      "exportPdf": "Export to PDF",
+      "exportExcel": "Export to Excel"
+    },
+    "noOperations": "No operations in this time range",
+    "crewAvailability": "Crew Availability",
+    "availableTotal": "Available / Total",
+    "clickForDetails": "Click for full details",
+    "crewAssigned": "{count} crew assigned",
+    "schedule": "Schedule",
+    "locations": "Locations",
+    "assignedCrew": "Assigned Crew",
+    "noCrewAssigned": "No crew assigned",
+    "specialRequirements": "Special Requirements"
+  },
+  "slips": {
+    "title": "Transport Slip Pipeline",
+    "description": "Manage transport slip workflow",
+    "columns": {
+      "created": "Created",
+      "validated": "Validated",
+      "printed": "Printed"
+    },
+    "labels": {
+      "dueTime": "Due Time",
+      "assignedTo": "Assigned To",
+      "createdAt": "Created At",
+      "validatedAt": "Validated At",
+      "printedAt": "Printed At"
+    },
+    "actions": {
+      "validate": "Validate",
+      "markPrinted": "Mark as Printed",
+      "preview": "Preview"
+    },
+    "urgency": {
+      "urgent": "Urgent",
+      "soon": "Due Soon",
+      "normal": "Normal"
+    }
+  },
+  "urgent": {
+    "title": "Urgent Ops Queue",
+    "description": "Handle last-minute client requests",
+    "pendingRequests": "{count} pending requests",
+    "pendingRequest": "1 pending request",
+    "noPendingRequests": "No pending urgent requests.",
+    "stages": {
+      "received": "Received",
+      "assessed": "Assessed",
+      "approved": "Approved",
+      "scheduled": "Scheduled"
+    },
+    "actions": {
+      "assess": "Assess",
+      "approve": "Approve",
+      "schedule": "Schedule"
+    },
+    "labels": {
+      "received": "Received",
+      "due": "Due",
+      "requestedDeadline": "Requested Deadline",
+      "notes": "Notes",
+      "history": "History",
+      "addNote": "Add Note (optional)",
+      "owner": "Owner"
+    },
+    "buttons": {
+      "markAsAssessed": "Mark as Assessed",
+      "approveRequest": "Approve Request",
+      "addToSchedule": "Add to Schedule"
+    },
+    "notePlaceholder": "Add a note about this action...",
+    "allCaughtUp": "All caught up!",
+    "recentlyScheduled": "Recently Scheduled"
+  },
+  "resources": {
+    "title": "Resource Matching",
+    "description": "Assign crew based on skills and availability",
+    "operationsRequiring": "Operations Requiring Assignment",
+    "availableCrew": "Available Crew",
+    "forClient": "for {client}",
+    "noCrewAssigned": "No crew assigned",
+    "needsMore": "Needs {count} more",
+    "allStaffed": "All operations are fully staffed!",
+    "selectOperation": "Select an operation to see crew matches",
+    "matchReasons": {
+      "notAvailable": "Not available today",
+      "overloaded": "Overloaded (3+ operations today)",
+      "fullyQualified": "Fully qualified",
+      "available": "Available",
+      "missing": "Missing: {certs}"
+    },
+    "opsToday": "{count} ops today",
+    "confirmAssignment": "Confirm Assignment",
+    "assignPrompt": "Assign {crew} to {client}?",
+    "operation": "Operation",
+    "dateTime": "Date/Time"
+  },
+  "mission": {
+    "title": "New Mission",
+    "description": "Create a new transport operation",
+    "steps": {
+      "clientType": "Client & Type",
+      "artworkDetails": "Artwork Details",
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "requirements": "Requirements",
+      "review": "Review"
+    },
+    "shortSteps": {
+      "client": "Client",
+      "artwork": "Artwork",
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "reqs": "Reqs",
+      "review": "Review"
+    },
+    "buttons": {
+      "saveDraft": "Save Draft",
+      "createMission": "Create Mission",
+      "createAnother": "Create Another Mission",
+      "goToPlanning": "Go to Planning"
+    },
+    "success": {
+      "title": "Mission Created!",
+      "message": "Your mission {reference} has been created successfully."
+    },
+    "resetDialog": {
+      "title": "Reset Form?",
+      "message": "This will clear all entered data and start fresh. This action cannot be undone.",
+      "confirm": "Reset Form"
+    },
+    "clientInfo": {
+      "title": "Client",
+      "searchPlaceholder": "Search clients...",
+      "noClientsFound": "No clients found",
+      "change": "Change",
+      "missionType": "Mission Type",
+      "reference": "Reference",
+      "referenceNumber": "Reference Number",
+      "autoGenerated": "Auto-generated",
+      "internalNotes": "Internal Notes",
+      "notesPlaceholder": "Add any internal notes or special instructions..."
+    },
+    "types": {
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "roundTrip": "Round Trip",
+      "installation": "Installation"
+    },
+    "operationTypes": {
+      "delivery": "Delivery",
+      "pickup": "Pickup",
+      "installation": "Installation",
+      "auction": "Auction"
+    }
+  },
+  "briefing": {
+    "title": "Daily Briefing",
+    "description": "Today's operations overview",
+    "stats": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "crewActive": "Crew Active",
+      "vehicles": "Vehicles"
+    },
+    "timeline": "Today's Timeline",
+    "alerts": "Alerts & Notices",
+    "crewStatus": "Crew Status"
+  },
+  "activity": {
+    "title": "Activity Feed",
+    "description": "Real-time system activity",
+    "types": {
+      "all": "All",
+      "statusChange": "Status Changes",
+      "assignment": "Assignments",
+      "urgent": "Urgent",
+      "alert": "Alerts",
+      "slip": "Slips"
+    },
+    "noActivity": "No activity to display"
+  },
+  "capacity": {
+    "title": "Capacity Overview",
+    "description": "Resource utilization and availability",
+    "weekView": "Week",
+    "dayView": "Day",
+    "utilization": "Utilization",
+    "available": "Available"
+  },
+  "field": {
+    "title": "Field View",
+    "description": "Mobile-optimized operations view"
+  },
+  "portal": {
+    "title": "Client Portal",
+    "description": "Client-facing status updates"
+  },
+  "kpi": {
+    "title": "KPI Dashboard",
+    "description": "Key performance indicators"
+  },
+  "executive": {
+    "title": "Executive Dashboard",
+    "description": "High-level business overview"
+  }
+}

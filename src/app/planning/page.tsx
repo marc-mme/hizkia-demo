@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { operations, type Operation, type OperationStatus } from "@/data/operations"
 import { crew } from "@/data/crew"
 import { StatusBadge } from "@/components/shared/status-badge"
@@ -39,6 +40,8 @@ type SortField = "dateTime" | "client" | "status"
 type SortOrder = "asc" | "desc"
 
 export default function PlanningPage() {
+  const t = useTranslations("planning")
+  const tCommon = useTranslations("common")
   const [searchQuery, setSearchQuery] = React.useState("")
   const [statusFilter, setStatusFilter] = React.useState<OperationStatus | "all">("all")
   const [sortField, setSortField] = React.useState<SortField>("dateTime")
@@ -137,9 +140,9 @@ export default function PlanningPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Planning Status</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
           <p className="text-muted-foreground">
-            Manage and track all scheduled operations
+            {t("description")}
           </p>
         </div>
         <Button
@@ -147,7 +150,7 @@ export default function PlanningPage() {
           className="bg-gold text-background hover:bg-gold/90"
         >
           <Plus className="h-4 w-4 mr-2" />
-          New Mission
+          {t("newMission")}
         </Button>
       </div>
 
@@ -163,7 +166,7 @@ export default function PlanningPage() {
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Visible</p>
+                <p className="text-sm text-muted-foreground">{t("stats.visible")}</p>
                 <p className="text-2xl font-bold text-status-visible">
                   {statusCounts.visible}
                 </p>
@@ -183,7 +186,7 @@ export default function PlanningPage() {
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Ready</p>
+                <p className="text-sm text-muted-foreground">{t("stats.ready")}</p>
                 <p className="text-2xl font-bold text-status-ready">
                   {statusCounts.ready}
                 </p>
@@ -203,7 +206,7 @@ export default function PlanningPage() {
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">In Progress</p>
+                <p className="text-sm text-muted-foreground">{t("stats.inProgress")}</p>
                 <p className="text-2xl font-bold text-status-info">
                   {statusCounts.in_progress}
                 </p>
@@ -223,7 +226,7 @@ export default function PlanningPage() {
           <CardContent className="pt-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Completed</p>
+                <p className="text-sm text-muted-foreground">{t("stats.completed")}</p>
                 <p className="text-2xl font-bold text-muted-foreground">
                   {statusCounts.completed}
                 </p>
@@ -239,7 +242,7 @@ export default function PlanningPage() {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by client, ID, or type..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9 glass-subtle"
@@ -253,7 +256,7 @@ export default function PlanningPage() {
             setStatusFilter("all")
           }}
         >
-          Clear Filters
+          {tCommon("actions.clearFilters")}
         </Button>
       </div>
 
@@ -269,7 +272,7 @@ export default function PlanningPage() {
                 >
                   <div className="flex items-center gap-1">
                     <Clock className="h-4 w-4" />
-                    Date/Time
+                    {t("table.dateTime")}
                     <SortIcon field="dateTime" />
                   </div>
                 </th>
@@ -278,30 +281,30 @@ export default function PlanningPage() {
                   onClick={() => toggleSort("client")}
                 >
                   <div className="flex items-center gap-1">
-                    Client
+                    {t("table.client")}
                     <SortIcon field="client" />
                   </div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
-                  Type
+                  {t("table.type")}
                 </th>
                 <th
                   className="px-4 py-3 text-left text-sm font-medium text-muted-foreground cursor-pointer hover:text-foreground"
                   onClick={() => toggleSort("status")}
                 >
                   <div className="flex items-center gap-1">
-                    Status
+                    {t("table.status")}
                     <SortIcon field="status" />
                   </div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Users className="h-4 w-4" />
-                    Crew
+                    {t("table.crew")}
                   </div>
                 </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-muted-foreground">
-                  Actions
+                  {t("table.actions")}
                 </th>
               </tr>
             </thead>
@@ -381,7 +384,7 @@ export default function PlanningPage() {
                               size="sm"
                               className="glass-subtle"
                             >
-                              Update Status
+                              {t("statusUpdate")}
                               <ChevronDown className="h-4 w-4 ml-1" />
                             </Button>
                           </DropdownMenuTrigger>
@@ -393,7 +396,7 @@ export default function PlanningPage() {
                               }}
                             >
                               <Eye className="h-4 w-4 mr-2 text-status-visible" />
-                              Mark Visible
+                              {t("markVisible")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={(e) => {
@@ -402,7 +405,7 @@ export default function PlanningPage() {
                               }}
                             >
                               <Check className="h-4 w-4 mr-2 text-status-ready" />
-                              Mark Ready
+                              {t("markReady")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={(e) => {
@@ -411,7 +414,7 @@ export default function PlanningPage() {
                               }}
                             >
                               <Truck className="h-4 w-4 mr-2 text-status-info" />
-                              Mark In Progress
+                              {t("markInProgress")}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={(e) => {
@@ -420,7 +423,7 @@ export default function PlanningPage() {
                               }}
                             >
                               <Check className="h-4 w-4 mr-2" />
-                              Mark Completed
+                              {t("markCompleted")}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
@@ -438,7 +441,7 @@ export default function PlanningPage() {
                               }}
                             >
                               <Copy className="h-4 w-4 mr-2 text-gold" />
-                              New Mission for Client
+                              {t("newMissionForClient")}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -458,7 +461,7 @@ export default function PlanningPage() {
                               <div className="space-y-3">
                                 <div>
                                   <p className="text-sm font-medium text-muted-foreground mb-1">
-                                    Pickup
+                                    {t("expanded.pickup")}
                                   </p>
                                   <p className="flex items-center gap-2">
                                     <MapPin className="h-4 w-4 text-status-visible" />
@@ -467,7 +470,7 @@ export default function PlanningPage() {
                                 </div>
                                 <div>
                                   <p className="text-sm font-medium text-muted-foreground mb-1">
-                                    Delivery
+                                    {t("expanded.delivery")}
                                   </p>
                                   <p className="flex items-center gap-2">
                                     <MapPin className="h-4 w-4 text-status-ready" />
@@ -478,14 +481,14 @@ export default function PlanningPage() {
                               <div className="space-y-3">
                                 <div>
                                   <p className="text-sm font-medium text-muted-foreground mb-1">
-                                    Notes
+                                    {t("expanded.notes")}
                                   </p>
                                   <p className="text-sm">{op.notes}</p>
                                 </div>
                                 {op.specialRequirements && (
                                   <div>
                                     <p className="text-sm font-medium text-muted-foreground mb-1">
-                                      Requirements
+                                      {t("expanded.requirements")}
                                     </p>
                                     <div className="flex flex-wrap gap-2">
                                       {op.specialRequirements.map((req) => (
@@ -502,7 +505,7 @@ export default function PlanningPage() {
                                 )}
                                 <div>
                                   <p className="text-sm font-medium text-muted-foreground mb-1">
-                                    Assigned Crew
+                                    {t("expanded.assignedCrew")}
                                   </p>
                                   <p className="text-sm">{getCrewNames(op.crew)}</p>
                                 </div>
@@ -521,7 +524,7 @@ export default function PlanningPage() {
 
         {filteredOps.length === 0 && (
           <div className="text-center py-12 text-muted-foreground">
-            No operations found matching your filters.
+            {t("noOperations")}
           </div>
         )}
       </Card>
