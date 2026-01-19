@@ -10,7 +10,7 @@ interface IntlProviderProps {
 
 export function IntlProvider({ locale, messages, children }: IntlProviderProps) {
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider locale={locale} messages={messages} timeZone="Europe/Paris">
       {children}
     </NextIntlClientProvider>
   )

@@ -11,7 +11,12 @@
       "Bash(git commit:*)",
       "Bash(npm run dev:*)",
       "Bash(gh auth status:*)",
-      "Bash(gh repo create:*)"
+      "Bash(gh repo create:*)",
+      "Bash(git push:*)",
+      "Bash(tree:*)",
+      "Bash(ls -la \"d:\\\\workspace\\\\hizkia\\\\demo\\\\src\\\\types\"\" 2>/dev/null || echo \"Directory may not exist yet \")",
+      "Bash(ls -la \"d:\\\\workspace\\\\hizkia\\\\demo\\\\src\\\\data\"\" 2>/dev/null || echo \"Directory may not exist yet \")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd planning filters, status buttons, and rich operation data\n\n- Add filter dropdowns \\(Status, Type, Client, Crew\\) to Planning Status\n- Replace status dropdown with icon buttons \\(distinct colors/icons\\)\n- Expand operations data to 23 entries with artworks, timeline, contacts\n- Redesign operation detail sheet with tabs \\(Details, Artworks, etc.\\)\n- Add status-completed CSS color \\(purple\\) for visual distinction\n- Fix next-intl ENVIRONMENT_FALLBACK with Europe/Paris timezone\n- Add translations for status badges and operation types\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

@@ -113,6 +113,22 @@
       "crew": "Équipe",
       "actions": "Actions"
     },
+    "filters": {
+      "status": "Statut",
+      "type": "Type",
+      "client": "Client",
+      "crew": "Équipe",
+      "allStatuses": "Tous les statuts",
+      "allTypes": "Tous les types",
+      "allClients": "Tous les clients",
+      "allCrew": "Toute l'équipe",
+      "types": {
+        "delivery": "Livraison",
+        "pickup": "Enlèvement",
+        "installation": "Installation",
+        "auction": "Vente aux enchères"
+      }
+    },
     "statusUpdate": "Mettre à jour le statut",
     "markVisible": "Marquer Visible",
     "markReady": "Marquer Prêt",

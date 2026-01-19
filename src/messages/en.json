@@ -113,6 +113,22 @@
       "crew": "Crew",
       "actions": "Actions"
     },
+    "filters": {
+      "status": "Status",
+      "type": "Type",
+      "client": "Client",
+      "crew": "Crew",
+      "allStatuses": "All Statuses",
+      "allTypes": "All Types",
+      "allClients": "All Clients",
+      "allCrew": "All Crew",
+      "types": {
+        "delivery": "Delivery",
+        "pickup": "Pickup",
+        "installation": "Installation",
+        "auction": "Auction"
+      }
+    },
     "statusUpdate": "Update Status",
     "markVisible": "Mark Visible",
     "markReady": "Mark Ready",

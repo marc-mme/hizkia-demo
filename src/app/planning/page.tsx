@@ -9,13 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { MissionModal } from "@/components/missions"
 import { format, parseISO } from "date-fns"
 import { cn } from "@/lib/utils"
@@ -32,22 +25,42 @@ import {
   Check,
   Eye,
   Plus,
-  Copy,
+  CircleCheckBig,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 type SortField = "dateTime" | "client" | "status"
 type SortOrder = "asc" | "desc"
+type OperationType = "delivery" | "pickup" | "installation" | "auction"
 
 export default function PlanningPage() {
   const t = useTranslations("planning")
   const tCommon = useTranslations("common")
   const [searchQuery, setSearchQuery] = React.useState("")
   const [statusFilter, setStatusFilter] = React.useState<OperationStatus | "all">("all")
+  const [typeFilter, setTypeFilter] = React.useState<OperationType | "all">("all")
+  const [clientFilter, setClientFilter] = React.useState<string>("all")
+  const [crewFilter, setCrewFilter] = React.useState<string>("all")
   const [sortField, setSortField] = React.useState<SortField>("dateTime")
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("asc")
   const [expandedId, setExpandedId] = React.useState<string | null>(null)
   const [ops, setOps] = React.useState(operations)
+
+  // Get unique clients for filter
+  const uniqueClients = React.useMemo(() => {
+    return [...new Set(ops.map((op) => op.client))].sort()
+  }, [ops])
+
+  // Check if any filter is active
+  const hasActiveFilters = searchQuery || statusFilter !== "all" || typeFilter !== "all" || clientFilter !== "all" || crewFilter !== "all"
 
   // Mission modal state
   const [modalOpen, setModalOpen] = React.useState(false)
@@ -88,6 +101,21 @@ export default function PlanningPage() {
       result = result.filter((op) => op.status === statusFilter)
     }
 
+    // Filter by type
+    if (typeFilter !== "all") {
+      result = result.filter((op) => op.type === typeFilter)
+    }
+
+    // Filter by client
+    if (clientFilter !== "all") {
+      result = result.filter((op) => op.client === clientFilter)
+    }
+
+    // Filter by crew
+    if (crewFilter !== "all") {
+      result = result.filter((op) => op.crew.includes(crewFilter))
+    }
+
     // Sort
     result.sort((a, b) => {
       let comparison = 0
@@ -103,7 +131,15 @@ export default function PlanningPage() {
     })
 
     return result
-  }, [ops, searchQuery, statusFilter, sortField, sortOrder])
+  }, [ops, searchQuery, statusFilter, typeFilter, clientFilter, crewFilter, sortField, sortOrder])
+
+  const clearAllFilters = () => {
+    setSearchQuery("")
+    setStatusFilter("all")
+    setTypeFilter("all")
+    setClientFilter("all")
+    setCrewFilter("all")
+  }
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
@@ -238,26 +274,89 @@ export default function PlanningPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder={t("searchPlaceholder")}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 glass-subtle"
-          />
+      <div className="flex flex-col gap-4">
+        {/* Search and Clear */}
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder={t("searchPlaceholder")}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 glass-subtle"
+            />
+          </div>
+          {hasActiveFilters && (
+            <Button
+              variant="outline"
+              className="glass-subtle"
+              onClick={clearAllFilters}
+            >
+              {tCommon("actions.clearFilters")}
+            </Button>
+          )}
         </div>
-        <Button
-          variant="outline"
-          className="glass-subtle"
-          onClick={() => {
-            setSearchQuery("")
-            setStatusFilter("all")
-          }}
-        >
-          {tCommon("actions.clearFilters")}
-        </Button>
+
+        {/* Filter Dropdowns */}
+        <div className="flex flex-wrap gap-3">
+          {/* Status Filter */}
+          <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as OperationStatus | "all")}>
+            <SelectTrigger className="w-[160px] glass-subtle">
+              <SelectValue placeholder={t("filters.status")} />
+            </SelectTrigger>
+            <SelectContent className="glass">
+              <SelectItem value="all">{t("filters.allStatuses")}</SelectItem>
+              <SelectItem value="visible">{t("stats.visible")}</SelectItem>
+              <SelectItem value="ready">{t("stats.ready")}</SelectItem>
+              <SelectItem value="in_progress">{t("stats.inProgress")}</SelectItem>
+              <SelectItem value="completed">{t("stats.completed")}</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {/* Type Filter */}
+          <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value as OperationType | "all")}>
+            <SelectTrigger className="w-[160px] glass-subtle">
+              <SelectValue placeholder={t("filters.type")} />
+            </SelectTrigger>
+            <SelectContent className="glass">
+              <SelectItem value="all">{t("filters.allTypes")}</SelectItem>
+              <SelectItem value="delivery">{t("filters.types.delivery")}</SelectItem>
+              <SelectItem value="pickup">{t("filters.types.pickup")}</SelectItem>
+              <SelectItem value="installation">{t("filters.types.installation")}</SelectItem>
+              <SelectItem value="auction">{t("filters.types.auction")}</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {/* Client Filter */}
+          <Select value={clientFilter} onValueChange={setClientFilter}>
+            <SelectTrigger className="w-[200px] glass-subtle">
+              <SelectValue placeholder={t("filters.client")} />
+            </SelectTrigger>
+            <SelectContent className="glass max-h-[300px]">
+              <SelectItem value="all">{t("filters.allClients")}</SelectItem>
+              {uniqueClients.map((client) => (
+                <SelectItem key={client} value={client}>
+                  {client}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          {/* Crew Filter */}
+          <Select value={crewFilter} onValueChange={setCrewFilter}>
+            <SelectTrigger className="w-[180px] glass-subtle">
+              <SelectValue placeholder={t("filters.crew")} />
+            </SelectTrigger>
+            <SelectContent className="glass">
+              <SelectItem value="all">{t("filters.allCrew")}</SelectItem>
+              {crew.map((member) => (
+                <SelectItem key={member.id} value={member.id}>
+                  {member.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       {/* Table */}
@@ -345,8 +444,8 @@ export default function PlanningPage() {
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <Badge variant="outline" className="capitalize">
-                          {op.type}
+                        <Badge variant="outline">
+                          {t(`filters.types.${op.type}`)}
                         </Badge>
                       </td>
                       <td className="px-4 py-3">
@@ -373,78 +472,65 @@ export default function PlanningPage() {
                           )}
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-right">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger
-                            asChild
-                            onClick={(e) => e.stopPropagation()}
+                      <td className="px-4 py-3">
+                        <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className={cn(
+                              "h-7 w-7",
+                              op.status === "visible"
+                                ? "bg-status-visible/20 text-status-visible cursor-default"
+                                : "hover:bg-status-visible/10 hover:text-status-visible"
+                            )}
+                            onClick={() => op.status !== "visible" && updateStatus(op.id, "visible")}
+                            title={t("markVisible")}
                           >
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="glass-subtle"
-                            >
-                              {t("statusUpdate")}
-                              <ChevronDown className="h-4 w-4 ml-1" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="glass">
-                            <DropdownMenuItem
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                updateStatus(op.id, "visible")
-                              }}
-                            >
-                              <Eye className="h-4 w-4 mr-2 text-status-visible" />
-                              {t("markVisible")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                updateStatus(op.id, "ready")
-                              }}
-                            >
-                              <Check className="h-4 w-4 mr-2 text-status-ready" />
-                              {t("markReady")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                updateStatus(op.id, "in_progress")
-                              }}
-                            >
-                              <Truck className="h-4 w-4 mr-2 text-status-info" />
-                              {t("markInProgress")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                updateStatus(op.id, "completed")
-                              }}
-                            >
-                              <Check className="h-4 w-4 mr-2" />
-                              {t("markCompleted")}
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                // Find client ID from client name (simplified mapping)
-                                const clientIdMap: Record<string, string> = {
-                                  "Musée du Louvre": "louvre",
-                                  "Centre Pompidou": "pompidou",
-                                  "Christie's Paris": "christies",
-                                  "Galerie Perrotin": "perrotin",
-                                }
-                                const clientId = clientIdMap[op.client]
-                                openNewMissionModal(clientId, op.client)
-                              }}
-                            >
-                              <Copy className="h-4 w-4 mr-2 text-gold" />
-                              {t("newMissionForClient")}
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                            <Eye className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className={cn(
+                              "h-7 w-7",
+                              op.status === "ready"
+                                ? "bg-status-ready/20 text-status-ready cursor-default"
+                                : "hover:bg-status-ready/10 hover:text-status-ready"
+                            )}
+                            onClick={() => op.status !== "ready" && updateStatus(op.id, "ready")}
+                            title={t("markReady")}
+                          >
+                            <Check className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className={cn(
+                              "h-7 w-7",
+                              op.status === "in_progress"
+                                ? "bg-status-info/20 text-status-info cursor-default"
+                                : "hover:bg-status-info/10 hover:text-status-info"
+                            )}
+                            onClick={() => op.status !== "in_progress" && updateStatus(op.id, "in_progress")}
+                            title={t("markInProgress")}
+                          >
+                            <Truck className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className={cn(
+                              "h-7 w-7",
+                              op.status === "completed"
+                                ? "bg-status-completed/20 text-status-completed cursor-default"
+                                : "hover:bg-status-completed/10 hover:text-status-completed"
+                            )}
+                            onClick={() => op.status !== "completed" && updateStatus(op.id, "completed")}
+                            title={t("markCompleted")}
+                          >
+                            <CircleCheckBig className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
                       </td>
                     </motion.tr>
 

@@ -52,6 +52,7 @@
   --color-status-visible: var(--status-visible);
   --color-status-urgent: var(--status-urgent);
   --color-status-info: var(--status-info);
+  --color-status-completed: var(--status-completed);
   --color-glass: var(--glass);
   --color-glass-border: var(--glass-border);
 }
@@ -100,6 +101,7 @@
   --status-visible: #f59e0b;
   --status-urgent: #ef4444;
   --status-info: #3b82f6;
+  --status-completed: #8b5cf6;
   --glass: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(0, 0, 0, 0.08);
 }
@@ -145,6 +147,7 @@
   --status-visible: #f59e0b;
   --status-urgent: #ef4444;
   --status-info: #3b82f6;
+  --status-completed: #8b5cf6;
   --glass: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
