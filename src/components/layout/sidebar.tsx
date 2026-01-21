@@ -65,6 +65,7 @@ export function Sidebar({ collapsed = false, onCollapse }: SidebarProps) {
       animate={{ width: collapsed ? 72 : 256 }}
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className="h-screen flex flex-col glass border-r border-glass-border"
+      data-tour="sidebar"
     >
       {/* Logo */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-glass-border">

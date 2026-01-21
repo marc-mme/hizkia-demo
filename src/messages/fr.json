@@ -36,6 +36,32 @@
       "vehicle": "Véhicule",
       "pickup": "Enlèvement",
       "delivery": "Livraison"
+    },
+    "requirements": {
+      "climate-control": "Contrôle Climatique",
+      "fragile-handling": "Manutention Fragile",
+      "oversized-transport": "Transport Hors-Gabarit",
+      "installation-crew": "Équipe d'Installation",
+      "crane-required": "Grue Requise",
+      "artist-present": "Artiste Présent",
+      "security-escort": "Escorte de Sécurité",
+      "insurance-required": "Assurance Requise",
+      "insurance-verified": "Assurance Vérifiée",
+      "white-glove": "Gants Blancs",
+      "white-gloves": "Gants Blancs",
+      "crating": "Mise en Caisse",
+      "gps-tracking": "Suivi GPS",
+      "customs-cleared": "Douanes Dédouanées",
+      "customs-documentation": "Documentation Douanière",
+      "heavy-lift": "Levage Lourd",
+      "secure-strapping": "Arrimage Sécurisé",
+      "multi-vehicle": "Multi-Véhicule",
+      "light-sensitive": "Sensible à la Lumière",
+      "weather-dependent": "Dépendant Météo",
+      "diplomatic-clearance": "Autorisation Diplomatique",
+      "armed-transport": "Transport Armé",
+      "nda-required": "NDA Requis",
+      "crate-inspection": "Inspection Caisse"
     }
   },
   "navigation": {
@@ -85,8 +111,7 @@
       "title": "Bienvenue sur Hizkia France Ops Demo V1",
       "subtitle": "Tableau de Bord Opérations Logistiques d'Art",
       "proposalBy": "Une proposition faite par",
-      "demonstrationInterface": "Ceci est une {strong} présentant le système de gestion des opérations HIZKIA pour la logistique d'art.",
-      "demonstrationInterfaceStrong": "interface de démonstration",
+      "demonstrationInterface": "Ceci est une <strong>interface de démonstration</strong> présentant le système de gestion des opérations HIZKIA pour la logistique d'art.",
       "important": "Important :",
       "importantMessage": "Certains champs peuvent ne pas refléter parfaitement vos opérations actuelles — c'est intentionnel. L'objectif est d'illustrer les possibilités et la direction. Cette proposition inclut des ateliers dédiés pour aligner le design, les workflows et les fonctionnalités avec vos besoins réels.",
       "technicalNote": "Note technique :",
@@ -97,7 +122,21 @@
       },
       "exploreMessage": "N'hésitez pas à explorer toutes les fonctionnalités et workflows. Nous espérons que vous apprécierez la démo !",
       "questionsLabel": "Questions ou commentaires ?",
-      "dismiss": "Compris, explorons !"
+      "dismiss": "Compris, explorons !",
+      "tour": {
+        "sidebar": {
+          "title": "Menu de Navigation",
+          "description": "Accédez à toutes les fonctionnalités principales : Planning, Bons de Transport, Opérations Urgentes, et plus."
+        },
+        "language": {
+          "title": "Sélecteur de Langue",
+          "description": "Basculez entre l'anglais et le français pour afficher l'interface dans votre langue préférée."
+        },
+        "theme": {
+          "title": "Mode Sombre/Clair",
+          "description": "Basculez entre les thèmes sombre et clair pour votre confort visuel."
+        }
+      }
     }
   },
   "planning": {
@@ -182,18 +221,25 @@
   },
   "slips": {
     "title": "Pipeline Bons de Transport",
-    "description": "Gérer le workflow des bons de transport",
+    "description": "Suivre les bons de la création à l'impression",
+    "overdue": "En retard",
+    "overdueSlips": "{count, plural, one {# bon en retard} other {# bons en retard}}",
     "columns": {
       "created": "Créé",
       "validated": "Validé",
-      "printed": "Imprimé"
+      "printed": "Imprimé",
+      "noSlips": "Aucun bon"
     },
     "labels": {
       "dueTime": "Échéance",
       "assignedTo": "Assigné à",
-      "createdAt": "Créé le",
-      "validatedAt": "Validé le",
-      "printedAt": "Imprimé le"
+      "createdAt": "Créé",
+      "validatedAt": "Validé",
+      "printedAt": "Imprimé"
+    },
+    "dialogLabels": {
+      "operation": "Opération",
+      "timeline": "Chronologie"
     },
     "actions": {
       "validate": "Valider",

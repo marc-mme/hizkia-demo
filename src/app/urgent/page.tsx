@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { urgentRequests, type UrgentRequest, type UrgentStage } from "@/data/urgent"
 import { crew } from "@/data/crew"
 import { Card, CardContent } from "@/components/ui/card"
@@ -32,28 +33,28 @@ import {
 
 const stageConfig: Record<
   UrgentStage,
-  { label: string; icon: typeof Inbox; color: string; bgColor: string }
+  { labelKey: string; icon: typeof Inbox; color: string; bgColor: string }
 > = {
   received: {
-    label: "Received",
+    labelKey: "received",
     icon: Inbox,
     color: "text-status-urgent",
     bgColor: "bg-status-urgent/10",
   },
   assessed: {
-    label: "Assessed",
+    labelKey: "assessed",
     icon: Search,
     color: "text-status-visible",
     bgColor: "bg-status-visible/10",
   },
   approved: {
-    label: "Approved",
+    labelKey: "approved",
     icon: CheckCircle,
     color: "text-status-info",
     bgColor: "bg-status-info/10",
   },
   scheduled: {
-    label: "Scheduled",
+    labelKey: "scheduled",
     icon: Calendar,
     color: "text-status-ready",
     bgColor: "bg-status-ready/10",
@@ -63,6 +64,8 @@ const stageConfig: Record<
 const stages: UrgentStage[] = ["received", "assessed", "approved", "scheduled"]
 
 export default function UrgentPage() {
+  const t = useTranslations("urgent")
+  const tCommon = useTranslations("common")
   const [requests, setRequests] = React.useState(urgentRequests)
   const [selectedRequest, setSelectedRequest] = React.useState<UrgentRequest | null>(null)
   const [actionNote, setActionNote] = React.useState("")
@@ -122,15 +125,15 @@ export default function UrgentPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Urgent Ops Queue</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
           <p className="text-muted-foreground">
-            Handle last-minute client requests
+            {t("description")}
           </p>
         </div>
         {pendingCount > 0 && (
           <Badge className="bg-status-visible/20 text-status-visible border-status-visible/30 py-1 px-3">
             <AlertTriangle className="h-4 w-4 mr-2" />
-            {pendingCount} pending request{pendingCount > 1 ? "s" : ""}
+            {pendingCount === 1 ? t("pendingRequest") : t("pendingRequests", { count: pendingCount })}
           </Badge>
         )}
       </div>
@@ -153,7 +156,7 @@ export default function UrgentPage() {
                 >
                   <Icon className={cn("h-6 w-6", config.color)} />
                 </div>
-                <p className="text-sm font-medium mt-2">{config.label}</p>
+                <p className="text-sm font-medium mt-2">{t(`stages.${config.labelKey}`)}</p>
                 <Badge variant="secondary" className="mt-1">
                   {count}
                 </Badge>
@@ -213,7 +216,7 @@ export default function UrgentPage() {
                                 variant="outline"
                                 className={cn("text-xs", config.color)}
                               >
-                                {config.label}
+                                {t(`stages.${config.labelKey}`)}
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground mb-2">
@@ -222,14 +225,14 @@ export default function UrgentPage() {
                             <div className="flex items-center gap-4 text-xs text-muted-foreground">
                               <span className="flex items-center gap-1">
                                 <Clock className="h-3 w-3" />
-                                Received{" "}
+                                {t("labels.received")}{" "}
                                 {formatDistanceToNow(parseISO(request.receivedAt), {
                                   addSuffix: true,
                                 })}
                               </span>
                               <span className="flex items-center gap-1">
                                 <Calendar className="h-3 w-3" />
-                                Due{" "}
+                                {t("labels.due")}{" "}
                                 {format(
                                   parseISO(request.requestedDeadline),
                                   "MMM d, HH:mm"
@@ -252,10 +255,10 @@ export default function UrgentPage() {
                           }}
                         >
                           {request.stage === "received"
-                            ? "Assess"
+                            ? t("actions.assess")
                             : request.stage === "assessed"
-                            ? "Approve"
-                            : "Schedule"}
+                            ? t("actions.approve")
+                            : t("actions.schedule")}
                           <ChevronRight className="h-4 w-4 ml-1" />
                         </Button>
                       </div>
@@ -269,8 +272,8 @@ export default function UrgentPage() {
         {pendingCount === 0 && (
           <div className="text-center py-12 text-muted-foreground">
             <CheckCircle className="h-12 w-12 mx-auto mb-4 text-status-ready" />
-            <p className="text-lg font-medium">All caught up!</p>
-            <p className="text-sm">No pending urgent requests.</p>
+            <p className="text-lg font-medium">{t("allCaughtUp")}</p>
+            <p className="text-sm">{t("noPendingRequests")}</p>
           </div>
         )}
       </div>
@@ -280,7 +283,7 @@ export default function UrgentPage() {
         <div className="mt-8">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <History className="h-5 w-5 text-muted-foreground" />
-            Recently Scheduled
+            {t("recentlyScheduled")}
           </h2>
           <div className="space-y-2">
             {requestsByStage.scheduled.map((request) => (
@@ -296,7 +299,7 @@ export default function UrgentPage() {
                   </span>
                 </div>
                 <span className="text-xs text-muted-foreground">
-                  Scheduled{" "}
+                  {t("stages.scheduled")}{" "}
                   {formatDistanceToNow(
                     parseISO(request.history[request.history.length - 1].timestamp),
                     { addSuffix: true }
@@ -330,7 +333,7 @@ export default function UrgentPage() {
 
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-muted-foreground">Requested Deadline</p>
+                  <p className="text-muted-foreground">{t("labels.requestedDeadline")}</p>
                   <p className="font-medium">
                     {format(
                       parseISO(selectedRequest.requestedDeadline),
@@ -339,7 +342,7 @@ export default function UrgentPage() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Received</p>
+                  <p className="text-muted-foreground">{t("labels.received")}</p>
                   <p className="font-medium">
                     {format(parseISO(selectedRequest.receivedAt), "MMM d, HH:mm")}
                   </p>
@@ -348,7 +351,7 @@ export default function UrgentPage() {
 
               {selectedRequest.notes && (
                 <div className="p-3 rounded-lg bg-accent/50">
-                  <p className="text-sm text-muted-foreground mb-1">Notes</p>
+                  <p className="text-sm text-muted-foreground mb-1">{t("labels.notes")}</p>
                   <p className="text-sm">{selectedRequest.notes}</p>
                 </div>
               )}
@@ -357,7 +360,7 @@ export default function UrgentPage() {
               <div className="border-t border-glass-border pt-4">
                 <p className="text-sm font-medium mb-2 flex items-center gap-2">
                   <History className="h-4 w-4" />
-                  History
+                  {t("labels.history")}
                 </p>
                 <div className="space-y-2">
                   {selectedRequest.history.map((entry, index) => (
@@ -372,8 +375,8 @@ export default function UrgentPage() {
                         )}
                       />
                       <div>
-                        <span className="font-medium capitalize">
-                          {entry.stage}
+                        <span className="font-medium">
+                          {t(`stages.${entry.stage}`)}
                         </span>
                         <span className="text-muted-foreground">
                           {" "}
@@ -398,10 +401,10 @@ export default function UrgentPage() {
                 <div>
                   <label className="text-sm font-medium flex items-center gap-2 mb-2">
                     <MessageSquare className="h-4 w-4" />
-                    Add Note (optional)
+                    {t("labels.addNote")}
                   </label>
                   <Textarea
-                    placeholder="Add a note about this action..."
+                    placeholder={t("notePlaceholder")}
                     value={actionNote}
                     onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                       setActionNote(e.target.value)
@@ -421,7 +424,7 @@ export default function UrgentPage() {
                 setActionNote("")
               }}
             >
-              Cancel
+              {tCommon("actions.cancel")}
             </Button>
             {selectedRequest && selectedRequest.stage !== "scheduled" && (
               <Button
@@ -434,10 +437,10 @@ export default function UrgentPage() {
                 )}
               >
                 {selectedRequest.stage === "received"
-                  ? "Mark as Assessed"
+                  ? t("buttons.markAsAssessed")
                   : selectedRequest.stage === "assessed"
-                  ? "Approve Request"
-                  : "Add to Schedule"}
+                  ? t("buttons.approveRequest")
+                  : t("buttons.addToSchedule")}
               </Button>
             )}
           </DialogFooter>

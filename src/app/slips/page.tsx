@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { slips, type TransportSlip, type SlipStatus } from "@/data/slips"
 import { crew } from "@/data/crew"
 import { Badge } from "@/components/ui/badge"
@@ -43,20 +44,20 @@ import {
 
 const columnConfig: Record<
   SlipStatus,
-  { title: string; icon: typeof FileText; color: string }
+  { titleKey: string; icon: typeof FileText; color: string }
 > = {
   created: {
-    title: "Created",
+    titleKey: "created",
     icon: FileText,
     color: "text-status-visible",
   },
   validated: {
-    title: "Validated",
+    titleKey: "validated",
     icon: CheckCircle,
     color: "text-status-info",
   },
   printed: {
-    title: "Printed",
+    titleKey: "printed",
     icon: Printer,
     color: "text-status-ready",
   },
@@ -68,6 +69,8 @@ interface SlipCardProps {
 }
 
 function SlipCard({ slip, onClick }: SlipCardProps) {
+  const t = useTranslations("slips")
+  const tPlanning = useTranslations("planning.filters.types")
   const {
     attributes,
     listeners,
@@ -114,7 +117,7 @@ function SlipCard({ slip, onClick }: SlipCardProps) {
         {isOverdue ? (
           <Badge variant="destructive" className="text-xs">
             <AlertTriangle className="h-3 w-3 mr-1" />
-            Overdue
+            {t("overdue")}
           </Badge>
         ) : isUrgent ? (
           <Badge className="bg-status-visible/20 text-status-visible border-status-visible/30 text-xs">
@@ -130,8 +133,8 @@ function SlipCard({ slip, onClick }: SlipCardProps) {
       </div>
 
       <p className="font-medium mb-2">{slip.client}</p>
-      <Badge variant="secondary" className="text-xs capitalize mb-3">
-        {slip.operationType}
+      <Badge variant="secondary" className="text-xs mb-3">
+        {tPlanning(slip.operationType)}
       </Badge>
 
       <div className="flex items-center justify-between mt-2 pt-2 border-t border-glass-border">
@@ -169,6 +172,7 @@ interface ColumnProps {
 }
 
 function Column({ status, slips, onSlipClick }: ColumnProps) {
+  const t = useTranslations("slips.columns")
   const config = columnConfig[status]
   const Icon = config.icon
 
@@ -176,7 +180,7 @@ function Column({ status, slips, onSlipClick }: ColumnProps) {
     <div className="flex-1 min-w-[300px]">
       <div className="flex items-center gap-2 mb-4">
         <Icon className={cn("h-5 w-5", config.color)} />
-        <h3 className="font-semibold">{config.title}</h3>
+        <h3 className="font-semibold">{t(config.titleKey)}</h3>
         <Badge variant="secondary" className="ml-auto">
           {slips.length}
         </Badge>
@@ -196,7 +200,7 @@ function Column({ status, slips, onSlipClick }: ColumnProps) {
           ))}
           {slips.length === 0 && (
             <div className="flex items-center justify-center h-24 text-muted-foreground text-sm">
-              No slips
+              {t("noSlips")}
             </div>
           )}
         </div>
@@ -206,6 +210,9 @@ function Column({ status, slips, onSlipClick }: ColumnProps) {
 }
 
 export default function SlipsPage() {
+  const t = useTranslations("slips")
+  const tCommon = useTranslations("common")
+  const tPlanning = useTranslations("planning.filters.types")
   const [slipList, setSlipList] = React.useState(slips)
   const [activeId, setActiveId] = React.useState<string | null>(null)
   const [selectedSlip, setSelectedSlip] = React.useState<TransportSlip | null>(null)
@@ -284,15 +291,15 @@ export default function SlipsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Transport Slip Pipeline</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
           <p className="text-muted-foreground">
-            Track slips through creation to printing
+            {t("description")}
           </p>
         </div>
         {overdueCount > 0 && (
           <Badge variant="destructive" className="text-sm py-1 px-3">
             <AlertTriangle className="h-4 w-4 mr-2" />
-            {overdueCount} overdue slip{overdueCount > 1 ? "s" : ""}
+            {t("overdueSlips", { count: overdueCount })}
           </Badge>
         )}
       </div>
@@ -336,21 +343,21 @@ export default function SlipsPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-muted-foreground">Operation</p>
+                  <p className="text-sm text-muted-foreground">{t("dialogLabels.operation")}</p>
                   <p className="font-medium">{selectedSlip.operationId}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Client</p>
+                  <p className="text-sm text-muted-foreground">{tCommon("labels.client")}</p>
                   <p className="font-medium">{selectedSlip.client}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Type</p>
-                  <Badge variant="outline" className="capitalize">
-                    {selectedSlip.operationType}
+                  <p className="text-sm text-muted-foreground">{tCommon("labels.type")}</p>
+                  <Badge variant="outline">
+                    {tPlanning(selectedSlip.operationType)}
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Due Time</p>
+                  <p className="text-sm text-muted-foreground">{t("labels.dueTime")}</p>
                   <p className="font-medium">
                     {format(parseISO(selectedSlip.dueTime), "MMM d, HH:mm")}
                   </p>
@@ -358,11 +365,11 @@ export default function SlipsPage() {
               </div>
 
               <div className="pt-4 border-t border-glass-border">
-                <p className="text-sm text-muted-foreground mb-2">Timeline</p>
+                <p className="text-sm text-muted-foreground mb-2">{t("dialogLabels.timeline")}</p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm">
                     <FileText className="h-4 w-4 text-status-visible" />
-                    <span>Created:</span>
+                    <span>{t("labels.createdAt")}:</span>
                     <span className="text-muted-foreground">
                       {format(parseISO(selectedSlip.createdAt), "MMM d, HH:mm")}
                     </span>
@@ -370,7 +377,7 @@ export default function SlipsPage() {
                   {selectedSlip.validatedAt && (
                     <div className="flex items-center gap-2 text-sm">
                       <CheckCircle className="h-4 w-4 text-status-info" />
-                      <span>Validated:</span>
+                      <span>{t("labels.validatedAt")}:</span>
                       <span className="text-muted-foreground">
                         {format(
                           parseISO(selectedSlip.validatedAt),
@@ -382,7 +389,7 @@ export default function SlipsPage() {
                   {selectedSlip.printedAt && (
                     <div className="flex items-center gap-2 text-sm">
                       <Printer className="h-4 w-4 text-status-ready" />
-                      <span>Printed:</span>
+                      <span>{t("labels.printedAt")}:</span>
                       <span className="text-muted-foreground">
                         {format(
                           parseISO(selectedSlip.printedAt),
@@ -402,7 +409,7 @@ export default function SlipsPage() {
                   }}
                 >
                   <Eye className="h-4 w-4 mr-2" />
-                  Preview
+                  {t("actions.preview")}
                 </Button>
                 {selectedSlip.status === "created" && (
                   <Button
@@ -423,7 +430,7 @@ export default function SlipsPage() {
                     }}
                   >
                     <CheckCircle className="h-4 w-4 mr-2" />
-                    Validate
+                    {t("actions.validate")}
                   </Button>
                 )}
                 {selectedSlip.status === "validated" && (
@@ -445,7 +452,7 @@ export default function SlipsPage() {
                     }}
                   >
                     <Printer className="h-4 w-4 mr-2" />
-                    Mark as Printed
+                    {t("actions.markPrinted")}
                   </Button>
                 )}
               </div>

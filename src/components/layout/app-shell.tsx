@@ -2,6 +2,8 @@
 
 import * as React from "react"
 import { useTranslations } from "next-intl"
+import { driver } from "driver.js"
+import "driver.js/dist/driver.css"
 import { Sidebar } from "./sidebar"
 import { Header } from "./header"
 import { MissionPanelProvider, useMissionPanel } from "@/components/missions"
@@ -205,9 +207,56 @@ function WelcomeModal() {
     }
   }, [])
 
+  const startTour = React.useCallback(() => {
+    const driverObj = driver({
+      showProgress: true,
+      animate: true,
+      overlayColor: "rgba(0, 0, 0, 0.75)",
+      popoverClass: "driver-popover-custom",
+      allowClose: true,
+      steps: [
+        {
+          element: '[data-tour="language"]',
+          disableActiveInteraction: false,
+          popover: {
+            title: t("tour.language.title"),
+            description: t("tour.language.description"),
+            side: "left",
+            align: "center",
+          },
+        },
+        {
+          element: '[data-tour="theme"]',
+          disableActiveInteraction: false,
+          popover: {
+            title: t("tour.theme.title"),
+            description: t("tour.theme.description"),
+            side: "left",
+            align: "center",
+          },
+        },
+        {
+          element: '[data-tour="sidebar"]',
+          popover: {
+            title: t("tour.sidebar.title"),
+            description: t("tour.sidebar.description"),
+            side: "right",
+            align: "start",
+          },
+        },
+      ],
+    })
+
+    // Small delay to ensure modal is closed and elements are visible
+    setTimeout(() => {
+      driverObj.drive()
+    }, 300)
+  }, [t])
+
   const handleDismiss = () => {
     localStorage.setItem(WELCOME_STORAGE_KEY, "true")
     setIsOpen(false)
+    startTour()
   }
 
   if (!mounted) return null
@@ -244,13 +293,13 @@ function WelcomeModal() {
         <div className="space-y-4 py-4">
           <p className="text-sm text-muted-foreground">
             {t.rich("demonstrationInterface", {
-              strong: (chunks) => <strong className="text-foreground">{chunks}</strong>
+              strong: (chunks: React.ReactNode) => <strong className="text-foreground">{chunks}</strong>
             })}
           </p>
 
-          <div className="bg-amber-900/40 border-2 border-amber-500 rounded-lg p-4">
-            <p className="text-sm text-amber-100">
-              <strong className="text-amber-300">{t("important")}</strong> {t("importantMessage")}
+          <div className="bg-linear-to-r from-amber-600 to-amber-700 border-l-4 border-amber-300 rounded-lg p-4 shadow-lg">
+            <p className="text-sm text-white leading-relaxed">
+              <strong className="text-amber-100 uppercase tracking-wide">{t("important")}</strong> {t("importantMessage")}
             </p>
           </div>
 

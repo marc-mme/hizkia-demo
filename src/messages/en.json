@@ -36,6 +36,32 @@
       "vehicle": "Vehicle",
       "pickup": "Pickup",
       "delivery": "Delivery"
+    },
+    "requirements": {
+      "climate-control": "Climate Control",
+      "fragile-handling": "Fragile Handling",
+      "oversized-transport": "Oversized Transport",
+      "installation-crew": "Installation Crew",
+      "crane-required": "Crane Required",
+      "artist-present": "Artist Present",
+      "security-escort": "Security Escort",
+      "insurance-required": "Insurance Required",
+      "insurance-verified": "Insurance Verified",
+      "white-glove": "White Glove",
+      "white-gloves": "White Gloves",
+      "crating": "Crating",
+      "gps-tracking": "GPS Tracking",
+      "customs-cleared": "Customs Cleared",
+      "customs-documentation": "Customs Documentation",
+      "heavy-lift": "Heavy Lift",
+      "secure-strapping": "Secure Strapping",
+      "multi-vehicle": "Multi-Vehicle",
+      "light-sensitive": "Light Sensitive",
+      "weather-dependent": "Weather Dependent",
+      "diplomatic-clearance": "Diplomatic Clearance",
+      "armed-transport": "Armed Transport",
+      "nda-required": "NDA Required",
+      "crate-inspection": "Crate Inspection"
     }
   },
   "navigation": {
@@ -85,8 +111,7 @@
       "title": "Welcome to Hizkia France Ops Demo V1",
       "subtitle": "Art Logistics Operations Dashboard",
       "proposalBy": "A proposal made by",
-      "demonstrationInterface": "This is a {strong} showcasing the HIZKIA operations management system for art logistics.",
-      "demonstrationInterfaceStrong": "demonstration interface",
+      "demonstrationInterface": "This is a <strong>demonstration interface</strong> showcasing the HIZKIA operations management system for art logistics.",
       "important": "Important:",
       "importantMessage": "Some fields may not perfectly reflect your current operations — this is intentional. The goal is to illustrate possibilities and direction. This proposal includes dedicated workshops to align design, workflows, and features with your actual needs.",
       "technicalNote": "Technical note:",
@@ -97,7 +122,21 @@
       },
       "exploreMessage": "Feel free to explore all features and workflows. We hope you enjoy the demo!",
       "questionsLabel": "Questions or feedback?",
-      "dismiss": "Got it, let's explore!"
+      "dismiss": "Got it, let's explore!",
+      "tour": {
+        "sidebar": {
+          "title": "Navigation Menu",
+          "description": "Access all main features from here: Planning, Transport Slips, Urgent Operations, and more."
+        },
+        "language": {
+          "title": "Language Selector",
+          "description": "Switch between English and French to view the interface in your preferred language."
+        },
+        "theme": {
+          "title": "Dark/Light Mode",
+          "description": "Toggle between dark and light themes for your viewing comfort."
+        }
+      }
     }
   },
   "planning": {
@@ -182,18 +221,25 @@
   },
   "slips": {
     "title": "Transport Slip Pipeline",
-    "description": "Manage transport slip workflow",
+    "description": "Track slips through creation to printing",
+    "overdue": "Overdue",
+    "overdueSlips": "{count, plural, one {# overdue slip} other {# overdue slips}}",
     "columns": {
       "created": "Created",
       "validated": "Validated",
-      "printed": "Printed"
+      "printed": "Printed",
+      "noSlips": "No slips"
     },
     "labels": {
       "dueTime": "Due Time",
       "assignedTo": "Assigned To",
-      "createdAt": "Created At",
-      "validatedAt": "Validated At",
-      "printedAt": "Printed At"
+      "createdAt": "Created",
+      "validatedAt": "Validated",
+      "printedAt": "Printed"
+    },
+    "dialogLabels": {
+      "operation": "Operation",
+      "timeline": "Timeline"
     },
     "actions": {
       "validate": "Validate",

@@ -26,6 +26,10 @@ import {
   Eye,
   Plus,
   CircleCheckBig,
+  Building2,
+  Tag,
+  Activity,
+  Settings,
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -380,18 +384,23 @@ export default function PlanningPage() {
                   onClick={() => toggleSort("client")}
                 >
                   <div className="flex items-center gap-1">
+                    <Building2 className="h-4 w-4" />
                     {t("table.client")}
                     <SortIcon field="client" />
                   </div>
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
-                  {t("table.type")}
+                  <div className="flex items-center gap-1">
+                    <Tag className="h-4 w-4" />
+                    {t("table.type")}
+                  </div>
                 </th>
                 <th
                   className="px-4 py-3 text-left text-sm font-medium text-muted-foreground cursor-pointer hover:text-foreground"
                   onClick={() => toggleSort("status")}
                 >
                   <div className="flex items-center gap-1">
+                    <Activity className="h-4 w-4" />
                     {t("table.status")}
                     <SortIcon field="status" />
                   </div>
@@ -403,7 +412,10 @@ export default function PlanningPage() {
                   </div>
                 </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-muted-foreground">
-                  {t("table.actions")}
+                  <div className="flex items-center justify-end gap-1">
+                    <Settings className="h-4 w-4" />
+                    {t("table.actions")}
+                  </div>
                 </th>
               </tr>
             </thead>

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslations } from "next-intl"
 import { operations, type Operation } from "@/data/operations"
 import { crew, type CrewMember } from "@/data/crew"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -28,10 +29,8 @@ import {
   CheckCircle,
   AlertTriangle,
   XCircle,
-  MapPin,
   Clock,
   Award,
-  Phone,
   Calendar,
   Truck,
 } from "lucide-react"
@@ -46,6 +45,10 @@ interface CrewMatch {
 }
 
 export default function ResourcesPage() {
+  const t = useTranslations("resources")
+  const tCommon = useTranslations("common")
+  const tPlanning = useTranslations("planning.filters.types")
+  const tReqs = useTranslations("common.requirements")
   const [selectedOp, setSelectedOp] = React.useState<Operation | null>(null)
   const [assignDialogOpen, setAssignDialogOpen] = React.useState(false)
   const [selectedCrew, setSelectedCrew] = React.useState<CrewMember | null>(null)
@@ -65,7 +68,7 @@ export default function ResourcesPage() {
         return {
           member,
           matchLevel: "conflict" as MatchLevel,
-          matchReason: "Not available today",
+          matchReason: t("matchReasons.notAvailable"),
         }
       }
 
@@ -74,7 +77,7 @@ export default function ResourcesPage() {
         return {
           member,
           matchLevel: "conflict" as MatchLevel,
-          matchReason: "Overloaded (3+ operations today)",
+          matchReason: t("matchReasons.overloaded"),
         }
       }
 
@@ -88,26 +91,26 @@ export default function ResourcesPage() {
         return {
           member,
           matchLevel: "full" as MatchLevel,
-          matchReason: "Fully qualified",
+          matchReason: t("matchReasons.fullyQualified"),
         }
       } else if (missingCerts.length > 0 && missingCerts.length < requiredCerts.length) {
         return {
           member,
           matchLevel: "partial" as MatchLevel,
-          matchReason: `Missing: ${missingCerts.join(", ")}`,
+          matchReason: t("matchReasons.missing", { certs: missingCerts.join(", ") }),
           missingCerts,
         }
       } else if (requiredCerts.length === 0) {
         return {
           member,
           matchLevel: "full" as MatchLevel,
-          matchReason: "Available",
+          matchReason: t("matchReasons.available"),
         }
       } else {
         return {
           member,
           matchLevel: "partial" as MatchLevel,
-          matchReason: `Missing: ${missingCerts.join(", ")}`,
+          matchReason: t("matchReasons.missing", { certs: missingCerts.join(", ") }),
           missingCerts,
         }
       }
@@ -156,9 +159,9 @@ export default function ResourcesPage() {
       <div className="h-[calc(100vh-10rem)]">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">Resource Matching</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
           <p className="text-muted-foreground">
-            Assign crew based on skills and availability
+            {t("description")}
           </p>
         </div>
 
@@ -168,7 +171,7 @@ export default function ResourcesPage() {
             <CardHeader className="border-b border-glass-border">
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-gold" />
-                Operations Requiring Assignment
+                {t("operationsRequiring")}
                 <Badge variant="secondary" className="ml-auto">
                   {unassignedOps.length}
                 </Badge>
@@ -208,8 +211,8 @@ export default function ResourcesPage() {
                                   {op.id}
                                 </p>
                               </div>
-                              <Badge variant="outline" className="capitalize">
-                                {op.type}
+                              <Badge variant="outline">
+                                {tPlanning(op.type)}
                               </Badge>
                             </div>
 
@@ -229,7 +232,7 @@ export default function ResourcesPage() {
                                       variant="secondary"
                                       className="text-xs"
                                     >
-                                      {req.replace("-", " ")}
+                                      {tReqs(req)}
                                     </Badge>
                                   ))}
                                 </div>
@@ -247,13 +250,13 @@ export default function ResourcesPage() {
                                 ))}
                                 {op.crew.length === 0 && (
                                   <span className="text-xs text-muted-foreground">
-                                    No crew assigned
+                                    {t("noCrewAssigned")}
                                   </span>
                                 )}
                               </div>
                               {op.crew.length < 2 && (
                                 <Badge className="bg-status-visible/20 text-status-visible border-status-visible/30 text-xs">
-                                  Needs {2 - op.crew.length} more
+                                  {t("needsMore", { count: 2 - op.crew.length })}
                                 </Badge>
                               )}
                             </div>
@@ -267,7 +270,7 @@ export default function ResourcesPage() {
                 {unassignedOps.length === 0 && (
                   <div className="text-center py-12 text-muted-foreground">
                     <CheckCircle className="h-12 w-12 mx-auto mb-4 text-status-ready" />
-                    <p>All operations are fully staffed!</p>
+                    <p>{t("allStaffed")}</p>
                   </div>
                 )}
               </div>
@@ -279,10 +282,10 @@ export default function ResourcesPage() {
             <CardHeader className="border-b border-glass-border">
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5 text-gold" />
-                Available Crew
+                {t("availableCrew")}
                 {selectedOp && (
                   <span className="text-sm font-normal text-muted-foreground ml-2">
-                    for {selectedOp.client}
+                    {t("forClient", { client: selectedOp.client })}
                   </span>
                 )}
               </CardTitle>
@@ -328,7 +331,7 @@ export default function ResourcesPage() {
                               </Tooltip>
                               {alreadyAssigned && (
                                 <Badge className="bg-status-ready/20 text-status-ready border-status-ready/30 text-xs">
-                                  Assigned
+                                  {tCommon("actions.assign")}
                                 </Badge>
                               )}
                             </div>
@@ -354,7 +357,7 @@ export default function ResourcesPage() {
                                     )}
                                   >
                                     <Award className="h-3 w-3 mr-1" />
-                                    {cert.replace("-", " ")}
+                                    {tReqs(cert)}
                                   </Badge>
                                 )
                               })}
@@ -363,7 +366,7 @@ export default function ResourcesPage() {
                             <div className="flex items-center gap-3 text-xs text-muted-foreground">
                               <span className="flex items-center gap-1">
                                 <Truck className="h-3 w-3" />
-                                {match.member.todayOps} ops today
+                                {t("opsToday", { count: match.member.todayOps })}
                               </span>
                             </div>
                           </div>
@@ -381,7 +384,7 @@ export default function ResourcesPage() {
                               setAssignDialogOpen(true)
                             }}
                           >
-                            Assign
+                            {tCommon("actions.assign")}
                           </Button>
                         </div>
                       </motion.div>
@@ -390,7 +393,7 @@ export default function ResourcesPage() {
                 ) : (
                   <div className="text-center py-12 text-muted-foreground">
                     <User className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>Select an operation to see crew matches</p>
+                    <p>{t("selectOperation")}</p>
                   </div>
                 )}
               </div>
@@ -402,24 +405,23 @@ export default function ResourcesPage() {
         <Dialog open={assignDialogOpen} onOpenChange={setAssignDialogOpen}>
           <DialogContent className="glass">
             <DialogHeader>
-              <DialogTitle>Confirm Assignment</DialogTitle>
+              <DialogTitle>{t("confirmAssignment")}</DialogTitle>
             </DialogHeader>
 
             {selectedOp && selectedCrew && (
               <div className="space-y-4">
                 <p className="text-muted-foreground">
-                  Assign <strong>{selectedCrew.name}</strong> to{" "}
-                  <strong>{selectedOp.client}</strong>?
+                  {t("assignPrompt", { crew: selectedCrew.name, client: selectedOp.client })}
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 p-4 rounded-lg bg-accent/50">
                   <div>
-                    <p className="text-sm text-muted-foreground">Operation</p>
+                    <p className="text-sm text-muted-foreground">{t("operation")}</p>
                     <p className="font-medium">{selectedOp.id}</p>
-                    <p className="text-sm capitalize">{selectedOp.type}</p>
+                    <p className="text-sm">{tPlanning(selectedOp.type)}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Date/Time</p>
+                    <p className="text-sm text-muted-foreground">{t("dateTime")}</p>
                     <p className="font-medium">
                       {format(parseISO(selectedOp.dateTime), "MMM d, HH:mm")}
                     </p>
@@ -433,9 +435,9 @@ export default function ResourcesPage() {
                 variant="outline"
                 onClick={() => setAssignDialogOpen(false)}
               >
-                Cancel
+                {tCommon("actions.cancel")}
               </Button>
-              <Button onClick={handleAssign}>Confirm Assignment</Button>
+              <Button onClick={handleAssign}>{t("confirmAssignment")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
